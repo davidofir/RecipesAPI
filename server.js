@@ -41,7 +41,9 @@ app.get('/recipes',(req,res)=>{
     });
 
 })
-
+app.get('/',(req,res)=>{
+    res.json({user:"demo"});
+})
 
 
 app.listen(port,()=>{
