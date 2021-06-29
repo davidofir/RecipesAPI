@@ -4,7 +4,7 @@ const session = require('express-session');
 const cors = require('cors');
 const mysql = require('mysql2');
 const multer = require('multer');
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use('/uploads',express.static('uploads'));
