@@ -4,6 +4,7 @@ const session = require('express-session');
 const cors = require('cors');
 const mysql = require('mysql2');
 const multer = require('multer');
+app.use(cors());
 const port = process.env.PORT || 3000;
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
@@ -32,7 +33,7 @@ const connection = mysql.createConnection({
 
 })
 
-app.use(cors());
+
 
 app.get('/recipes',(req,res)=>{
  
