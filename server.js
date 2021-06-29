@@ -42,7 +42,7 @@ app.get('/recipes',(req,res)=>{
 
 })
 app.get('/',(req,res)=>{
-    res.json({user:"demo"});
+    res.send("<h1>Hello Recipe API</1>")
 })
 
 
