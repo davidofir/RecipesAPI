@@ -71,3 +71,11 @@ app.post("/upload",upload.fields([{name:"imgs",maxCount:5}]),(req,res,next)=>{
     res.sendStatus(200);
 })
 
+app.get('/recipes/:id',(req,res)=>{
+    var recipe;
+    connection.query('SELECT * FROM recipe WHERE (recipe.recipeID=?)',[req.params.id],(err,response)=>{
+        if(err) throw err;
+        recipe = response;
+        res.json(recipe);
+    })
+})
