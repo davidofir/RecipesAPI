@@ -33,7 +33,7 @@ function handleDisconnect() {
       }
     });
   }
-
+handleDisconnect();
 app.get('/', (req, res) => {
     res.send("Hello Again!")
 });
