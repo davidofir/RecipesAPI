@@ -54,9 +54,20 @@ app.get('/recipes', (req, res) => {
     });
 
 })
-
+app.get('/recipes/imgs',(req,res)=>{
+    connection.query('SELECT * FROM recipeimg',(req,resp)=>{
+        res.json(resp)
+    })
+})
 app.post("/upload",upload.fields([{name:"imgs",maxCount:5}]),(req,res,next)=>{
     console.log(req.files.imgs);
+
+    req.files.imgs.foreach((file)=>{
+        connection.query('INSERT INTO recipeimg(recipeID,path) VALUES(?,?)',[5,file.path],(err,response)=>{
+            if(err) throw err;
+        })
+    })
+
     res.sendStatus(200);
 })
 
