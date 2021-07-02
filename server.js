@@ -79,15 +79,23 @@ app.get('/recipes/:id',(req,res)=>{
         res.json(recipe);
     })
 })
-
+app.get('/ingredients',(req,res)=>{
+    connection.query('SELECT * FROM ingredient',(err,response)=>{
+        if(err) throw err;
+        res.json(response);
+    })
+})
 app.post('/recipes',(req,res)=>{
+    let id;
     connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES(?,?,?,?)',[req.body.title,req.body.rating,req.body.cooktime,req.body.instructions],
     (err,resp)=>{
         if(err) throw err;
         connection.query('SELECT LAST_INSERT_ID()',(err,response)=>{
             if(err) throw err;
-            console.log(response);
-            res.send(response);
+            id=response;
+            req.body.ingredients.foreach((ingredient)=>{
+                connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES(?,?,?,?)',[id,ingredient.name,ingredient.qty,ingredient.unit])
+            })
         })
     })
 })
