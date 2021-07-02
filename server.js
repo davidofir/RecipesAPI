@@ -81,5 +81,9 @@ app.get('/recipes/:id',(req,res)=>{
 })
 
 app.post('/recipes',(req,res)=>{
-    console.log(req);
+    connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES(?,?,?,?)',[req.body.title,req.body.rating,req.body.cooktime,req.body.instructions],
+    (err,res)=>{
+        if(err) throw err;
+    })
+    res.sendStatus(200);
 })
