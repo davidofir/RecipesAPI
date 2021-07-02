@@ -82,8 +82,12 @@ app.get('/recipes/:id',(req,res)=>{
 
 app.post('/recipes',(req,res)=>{
     connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES(?,?,?,?)',[req.body.title,req.body.rating,req.body.cooktime,req.body.instructions],
-    (err,res)=>{
+    (err,resp)=>{
         if(err) throw err;
+        connection.query('SELECT LAST_INSERT_ID()',(err,response)=>{
+            if(err) throw err;
+            console.log(response);
+            res.send(response);
+        })
     })
-    res.sendStatus(200);
 })
