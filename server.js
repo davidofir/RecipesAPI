@@ -79,3 +79,7 @@ app.get('/recipes/:id',(req,res)=>{
         res.json(recipe);
     })
 })
+
+app.post('/recipes',(req,res)=>{
+    console.log(req);
+})
