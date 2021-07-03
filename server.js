@@ -96,7 +96,7 @@ app.post('/recipes',(req,res,next)=>{
 },(req,res)=>{
     console.log(req.body.ingredients)
     req.body.ingredients.map((item,index)=>{
-    connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (55,?,?,?)',[item.name,item.qty,item.unit],(err,result)=>{
+    connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (LAST_INSERT_ID(),?,?,?)',[item.name,item.qty,item.unit],(err,result)=>{
         if(err) throw err;
     })
     })
