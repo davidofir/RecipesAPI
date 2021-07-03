@@ -93,17 +93,18 @@ app.post('/recipes',(req,res,next)=>{
     })
 },(req,res,next)=>{
     connection.query('SELECT LAST_INSERT_ID()',(err,result)=>{
+        console.log(result[0]['LAST_INSERT_ID()']);
         req.lastID = result[0]['LAST_INSERT_ID()'];
         next();
     })
 }
 ,(req,res)=>{
-    req.body.ingredients.map((item,index)=>{
-        const lastID = parseInt(req.lastID);
-        connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (?,?,?,?)',[lastID,req,item.name,item.qty,item.unit],(err,result)=>{
-            res.sendStatus(200);
+    for(let i = 0; i < req.body.ingredients.length; i++){
+        console.log(req.lastID);
+        connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (?,?,?,?)',[req.lastID,req.body.ingredients[i]["name"],req.body.ingredients[i]["qty"],req.body.ingredients[i]["unit"]],(err,result)=>{
+        res.end();
         })
-        })
+        }
 }
 )
 // app.post('/ingredients',(req,res,next)=>{
