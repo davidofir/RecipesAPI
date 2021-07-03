@@ -85,16 +85,16 @@ app.get('/ingredients',(req,res)=>{
         res.json(response);
     })
 })
-app.post('/recipes',async(req,res)=>{
+app.post('/recipes',(req,res,next)=>{
     let id;
-    await connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES(?,?,?,?)',[req.body.title,req.body.rating,req.body.cooktime,req.body.instructions],
+    connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES(?,?,?,?)',[req.body.title,req.body.rating,req.body.cooktime,req.body.instructions],
     (err,resp)=>{
         if(err) throw err;
-        console.log(req.body.ingredients);        
-
+        console.log(req.body.ingredients);
+        next();
     })
-    await connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (SELECT LAST_INSERT_ID(),?)',[req.body.ingredients],(err,response)=>{
-        if(err) throw err;
-        response.sendStatus(200);
-    })
+},(req,res)=>{
+    console.log(req.body)
+    connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (LAST_INSERT_ID(),?)',[req.body.ingredients])
+    res.sendStatus(200);
 })
