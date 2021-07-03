@@ -59,17 +59,17 @@ app.get('/recipes/imgs',(req,res)=>{
         res.json(resp)
     })
 })
-app.post("/upload",upload.fields([{name:"imgs",maxCount:5}]),(req,res,next)=>{
-    console.log(req.files.imgs);
+// app.post("/upload",upload.fields([{name:"imgs",maxCount:5}]),(req,res,next)=>{
+//     console.log(req.files.imgs);
 
-    req.files.imgs.foreach((file)=>{
-        connection.query('INSERT INTO recipeimg(recipeID,path) VALUES(?,?)',[5,file.path],(err,response)=>{
-            if(err) throw err;
-        })
-    })
+//     req.files.imgs.foreach((file)=>{
+//         connection.query('INSERT INTO recipeimg(recipeID,path) VALUES(?,?)',[5,file.path],(err,response)=>{
+//             if(err) throw err;
+//         })
+//     })
 
-    res.sendStatus(200);
-})
+//     res.sendStatus(200);
+// })
 
 app.get('/recipes/:id',(req,res)=>{
     var recipe;
@@ -86,20 +86,39 @@ app.get('/ingredients',(req,res)=>{
     })
 })
 app.post('/recipes',(req,res,next)=>{
-    let id;
     connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES(?,?,?,?)',[req.body.title,req.body.rating,req.body.cooktime,req.body.instructions],
     (err,resp)=>{
         if(err) throw err;
-        console.log(req.body.ingredients);
         next();
     })
-},(req,res)=>{
-    console.log(req.body.ingredients)
+},(req,res,next)=>{
+    connection.query('SELECT LAST_INSERT_ID()',(err,result)=>{
+        req.lastID = result[0]['LAST_INSERT_ID()'];
+        next();
+    })
+}
+,(req,res)=>{
     req.body.ingredients.map((item,index)=>{
-    connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (LAST_INSERT_ID(),?,?,?)',[item.name,item.qty,item.unit],(err,result)=>{
-        if(err) throw err;
-    })
-    })
-
-    res.sendStatus(200);
-})
+        const lastID = parseInt(req.lastID);
+        connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (?,?,?,?)',[lastID,req,item.name,item.qty,item.unit],(err,result)=>{
+            res.sendStatus(200);
+        })
+        })
+}
+)
+// app.post('/ingredients',(req,res,next)=>{
+//     connection.query('LAST_INSERT_ID()',(err,result)=>{
+//         req.lastID = 55;
+//         next();
+//     })
+// },
+// (req,res)=>{
+//         req.body.ingredients.map((item,index)=>{
+//             console.log(item)
+//         connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (?,?,?,?)',[req.lastID,req,item.name,item.qty,item.unit],(err,result)=>{
+//             if(err) throw err;
+//             res.sendStatus(200);
+//         })
+        
+    
+// })})
