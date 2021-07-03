@@ -90,11 +90,10 @@ app.post('/recipes',(req,res)=>{
     connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES(?,?,?,?)',[req.body.title,req.body.rating,req.body.cooktime,req.body.instructions],
     (err,resp)=>{
         if(err) throw err;
-        connection.query('SELECT LAST_INSERT_ID()',(err,response)=>{
+        console.log(req.body.ingredients);        
+        connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (SELECT LAST_INSERT_ID(),?)',[req.body.ingredients],(err,response)=>{
             if(err) throw err;
-            id=response;
-            console.log(req.body.ingredients);
-            connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES ?',[req.body.ingredients])
+            response.sendStatus(200);
         })
     })
 })
