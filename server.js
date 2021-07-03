@@ -93,9 +93,8 @@ app.post('/recipes',(req,res)=>{
         connection.query('SELECT LAST_INSERT_ID()',(err,response)=>{
             if(err) throw err;
             id=response;
-            req.body.ingredients.foreach((ingredient)=>{
-                connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES(?,?,?,?)',[id,ingredient.name,ingredient.qty,ingredient.unit])
-            })
+            console.log(req.body.ingredients);
+            connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES ?',[req.body.ingredients])
         })
     })
 })
