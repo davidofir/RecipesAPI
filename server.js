@@ -79,6 +79,12 @@ app.get('/recipes/:id',(req,res)=>{
         res.json(recipe);
     })
 })
+app.get('/ingredients/:id',(req,res)=>{
+    connection.query('SELECT * FROM ingredient WHERE (recipeID=?)',[req.params.id],(err,response)=>{
+        if(err) throw err;
+        res.json(response);
+    })
+})
 app.get('/ingredients',(req,res)=>{
     connection.query('SELECT * FROM ingredient',(err,response)=>{
         if(err) throw err;
