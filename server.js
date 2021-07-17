@@ -14,6 +14,9 @@ app.use(cors());
 
 const port = process.env.PORT || 3000;
 
+// var recipesRouter = require('./routes/recipes');
+// var ingredientsRouter = require('./routes/ingredients');
+
 const storage = multer.diskStorage({
     destination: function(req,file,cb){
         cb(null,'uploads');
@@ -32,9 +35,6 @@ const fileFilter = (req,file,cb) =>{
 }
 
 const upload = multer({storage:storage, limits: {fileSize:1024*1024*5},fileFilter:fileFilter});
-
-var recipesRouter = require('./routes/recipes');
-var ingredientsRouter = require('./routes/ingredients');
 
 
 // app.use('/recipes', recipesRouter);
