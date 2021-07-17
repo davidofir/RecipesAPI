@@ -37,8 +37,8 @@ const fileFilter = (req,file,cb) =>{
 
 const upload = multer({storage:storage, limits: {fileSize:1024*1024*5},fileFilter:fileFilter});
 
-app.use('/recipes', recipesRouter);
-app.use('/ingredients', ingredientsRouter);
+// app.use('/recipes', recipesRouter);
+// app.use('/ingredients', ingredientsRouter);
 
 const connection = mysql.createPool({
     host: 'us-cdbr-east-04.cleardb.com',
