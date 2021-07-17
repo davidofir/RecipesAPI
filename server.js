@@ -1,14 +1,20 @@
 
 
 const express = require('express');
-const app = express();
+
 const mysql = require('mysql2');
 const cors = require('cors');
 const multer = require('multer');
+
+var recipesRouter = require('./routes/recipes');
+var ingredientsRouter = require('./routes/ingredients');
+
+const app = express();
 app.use(express.json());
 app.use('/uploads/',express.static('uploads'));
 app.use(express.urlencoded({extended:true}));
 app.use(cors());
+
 
 const port = process.env.PORT || 3000;
 
@@ -31,10 +37,6 @@ const fileFilter = (req,file,cb) =>{
 
 const upload = multer({storage:storage, limits: {fileSize:1024*1024*5},fileFilter:fileFilter});
 
-
-var recipesRouter = require('./routes/recipes');
-var ingredientsRouter = require('./routes/ingredients');
-
 app.use('/recipes', recipesRouter);
 app.use('/ingredients', ingredientsRouter);
 
@@ -44,7 +46,6 @@ const connection = mysql.createPool({
     password: '2e405a5e',
     database: 'heroku_080948200542108',
     debug:'false'
-
 });
 
 app.listen(port, () => {
@@ -55,9 +56,7 @@ app.get('/', (req, res) => {
     res.send("Hello Again!")
 });
 
-
 app.get('/recipes', (req, res) => {
-
     connection.query('SELECT * FROM recipe', (req, resp) => {
         res.json(resp);
     });
@@ -68,6 +67,7 @@ app.get('/recipes/imgs',(req,res)=>{
         res.json(resp)
     })
 })
+
 // app.post("/upload",upload.fields([{name:"imgs",maxCount:5}]),(req,res,next)=>{
 //     console.log(req.files.imgs);
 
