@@ -6,8 +6,8 @@ const mysql = require('mysql2');
 const cors = require('cors');
 const multer = require('multer');
 
-// var recipesRouter = require('./routes/recipes');
-// var ingredientsRouter = require('./routes/ingredients');
+var recipesRouter = require('./routes/recipes');
+var ingredientsRouter = require('./routes/ingredients');
 
 const app = express();
 app.use(express.json());
