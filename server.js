@@ -31,6 +31,13 @@ const fileFilter = (req,file,cb) =>{
 
 const upload = multer({storage:storage, limits: {fileSize:1024*1024*5},fileFilter:fileFilter});
 
+
+var recipesRouter = require('./routes/recipes');
+var ingredientsRouter = require('./routes/ingredients');
+
+app.use('/recipes', recipesRouter);
+app.use('/ingredients', ingredientsRouter);
+
 const connection = mysql.createPool({
     host: 'us-cdbr-east-04.cleardb.com',
     user: 'bad8b023ef60ea',
@@ -116,14 +123,14 @@ app.post('/recipes',(req,res,next)=>{
 }
 )
 
+module.exports = app;
 
 
 
 
 
 
-
-///NEW (not working)
+//NEW (not working)
 
 
 
