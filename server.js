@@ -93,14 +93,14 @@ app.get('/recipes/imgs',(req,res)=>{
 //     res.sendStatus(200);
 // })
 
-app.get('/recipes/:id',(req,res)=>{
-  var recipe;
-  connection.query('SELECT * FROM recipe WHERE (recipe.recipeID=?)',[req.params.id],(err,response)=>{
-      if(err) throw err;
-      recipe = response;
-      res.json(recipe);
-  })
-})
+// app.get('/recipes/:id',(req,res)=>{
+//   var recipe;
+//   connection.query('SELECT * FROM recipe WHERE (recipe.recipeID=?)',[req.params.id],(err,response)=>{
+//       if(err) throw err;
+//       recipe = response;
+//       res.json(recipe);
+//   })
+// })
 app.get('/ingredients/:id',(req,res)=>{
   connection.query('SELECT * FROM ingredient WHERE (recipeID=?)',[req.params.id],(err,response)=>{
       if(err) throw err;
