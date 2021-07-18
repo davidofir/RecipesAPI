@@ -17,17 +17,10 @@ const connection = mysql.createPool({
 //     database: 'recipeapp'
 // });
 
-router.post('/ingredients',(req,res,next)=>{
-    connection.query('LAST_INSERT_ID()',(err,result)=>{
-        req.lastID = 55;
-        next();
-    })
-},
-
-(req,res)=>{
+router.post('/ingredients',(req,res)=>{
         req.body.ingredients.map((item,index)=>{
             console.log(item)
-        connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (?,?,?,?)',[req.lastID,req,item.name,item.qty,item.unit],(err,result)=>{
+        connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (LAST_INSERT_ID(),?,?,?)',[item.name,item.qty,item.unit],(err,result)=>{
             if(err) throw err;
             res.sendStatus(200);
         })
