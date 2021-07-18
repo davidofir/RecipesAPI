@@ -17,11 +17,5 @@ router.get('/', function(req, res, next) {
   });
 });
 
-/* GET home page. */
-router.get('/sorted', function(req, res, next) {
-  connection.query('SELECT * FROM recipe ORDER BY creation_date DESC', (req, resp) => {
-    res.json(resp);
-  });
-});
 
 module.exports = router;
