@@ -58,7 +58,10 @@ const connection = mysql.createPool({
   password: '2e405a5e',
   database: 'heroku_080948200542108',
   debug:'false'
+});
 
+app.listen(port, () => {
+  console.log(`the server is running on port ${port}`);
 });
 
 app.get('/', (req, res) => {
@@ -70,7 +73,6 @@ app.get('/recipes', (req, res) => {
   connection.query('SELECT * FROM recipe', (req, resp) => {
       res.json(resp);
   });
-
 })
 
 
@@ -112,6 +114,12 @@ app.get('/recipes', (req, res) => {
 
 
 // module.exports = app;
+
+
+
+
+
+
 
 
 
