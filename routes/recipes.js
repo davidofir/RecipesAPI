@@ -24,6 +24,18 @@ router.get('/', (req, res) => {
     });
 })
 
+router.get('/sorted', (req, res) => {
+    connection.query('SELECT * FROM recipe ORDER BY creation_date DESC', (req, resp) => {
+        res.json(resp);
+    });
+})
+
+router.get('/sortedRating', (req, res) => {
+    connection.query('SELECT * FROM recipe ORDER BY rating DESC', (req, resp) => {
+        res.json(resp);
+    });
+})
+
 router.get('/imgs',(req,res)=>{
 connection.query('SELECT * FROM recipeimg',(req,resp)=>{
     res.json(resp)
@@ -73,5 +85,6 @@ router.post('/',(req,res,next)=>{
         }
     }
 )
+
 
 module.exports = router;

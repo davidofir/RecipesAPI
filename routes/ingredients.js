@@ -18,7 +18,7 @@ const connection = mysql.createPool({
 // });
 
 
-router.get('/ingredients/:id',(req,res)=>{
+router.get('/:id',(req,res)=>{
     connection.query('SELECT * FROM ingredient WHERE (recipeID=?)',[req.params.id],(err,response)=>{
         if(err) throw err;
         res.json(response);
@@ -26,21 +26,20 @@ router.get('/ingredients/:id',(req,res)=>{
   })
 
 
-router.get('/ingredients',(req,res)=>{
+router.get('/',(req,res)=>{
     connection.query('SELECT * FROM ingredient',(err,response)=>{
         if(err) throw err;
         res.json(response);
     })
 })
 
-
-router.post('/ingredients',(req,res)=>{
+router.post('/',(req,res)=>{
         req.body.ingredients.map((item,index)=>{
             console.log(item)
         connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (LAST_INSERT_ID(),?,?,?)',[item.name,item.qty,item.unit],(err,result)=>{
             if(err) throw err;
             res.sendStatus(200);
         })
-})}) //
+})})
 
 module.exports = router;
