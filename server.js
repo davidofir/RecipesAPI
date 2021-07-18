@@ -24,13 +24,13 @@ app.use(cors());
 const port = process.env.PORT || 3000;
 
 
-const connection = mysql.createPool({
-    host: 'us-cdbr-east-04.cleardb.com',
-    user: 'bad8b023ef60ea',
-    password: '2e405a5e',
-    database: 'heroku_080948200542108',
-    debug:'false'
-});
+// const connection = mysql.createPool({
+//     host: 'us-cdbr-east-04.cleardb.com',
+//     user: 'bad8b023ef60ea',
+//     password: '2e405a5e',
+//     database: 'heroku_080948200542108',
+//     debug:'false'
+// });
 
 
 const storage = multer.diskStorage({
