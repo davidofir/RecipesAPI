@@ -33,13 +33,22 @@ router.get('/',(req,res)=>{
     })
 })
 
-router.post('/',(req,res)=>{
+router.post('/',
+(req,res,next)=>{
+connection.query('LAST_INSERT_ID',(err,result)=>{
+    req.lastID = result;
+    next();
+})
+},
+(req,res)=>{
         req.body.ingredients.map((item,index)=>{
             console.log(item)
-        connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (LAST_INSERT_ID(),?,?,?)',[item.name,item.qty,item.unit],(err,result)=>{
+        connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (?,?,?,?)',[req.lastID,item.name,item.qty,item.unit],(err,result)=>{
             if(err) throw err;
             res.sendStatus(200);
         })
-})})
+})}
+
+)
 
 module.exports = router;
