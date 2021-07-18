@@ -11,10 +11,8 @@ const connection = mysql.createPool({
 });
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  connection.query('SELECT * FROM recipe', (req, resp) => {
-    res.json(resp);
-  });
+router.get('/', (req, res) => {
+  res.send("Hello Again!")
 });
 
 

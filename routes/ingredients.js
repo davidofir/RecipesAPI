@@ -17,6 +17,23 @@ const connection = mysql.createPool({
 //     database: 'recipeapp'
 // });
 
+
+router.get('/ingredients/:id',(req,res)=>{
+    connection.query('SELECT * FROM ingredient WHERE (recipeID=?)',[req.params.id],(err,response)=>{
+        if(err) throw err;
+        res.json(response);
+    })
+  })
+
+
+router.get('/ingredients',(req,res)=>{
+    connection.query('SELECT * FROM ingredient',(err,response)=>{
+        if(err) throw err;
+        res.json(response);
+    })
+})
+
+
 router.post('/ingredients',(req,res)=>{
         req.body.ingredients.map((item,index)=>{
             console.log(item)

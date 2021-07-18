@@ -17,6 +17,8 @@ const cors = require('cors');
 const multer = require('multer');
 
 var recipesRouter = require('./routes/recipes');
+var ingredientsRouter = require('./routes/ingredients');
+var indexRouter = require('./routes/index');
 
 app.use(express.json());
 app.use('/uploads/',express.static('uploads'));
@@ -64,30 +66,32 @@ const connection = mysql.createPool({
 });
 
 app.use('/recipes', recipesRouter);
+app.use('/ingredients', ingredientsRouter);
+app.use('/index', indexRouter);
 
 app.listen(port, () => {
   console.log(`the server is running on port ${port}`);
 });
 
-app.get('/', (req, res) => {
-  res.send("Hello Again!")
-});
+// app.get('/', (req, res) => {
+//   res.send("Hello Again!")
+// });
 
 
 //!!!!
 
-app.get('/ingredients/:id',(req,res)=>{
-  connection.query('SELECT * FROM ingredient WHERE (recipeID=?)',[req.params.id],(err,response)=>{
-      if(err) throw err;
-      res.json(response);
-  })
-})
-app.get('/ingredients',(req,res)=>{
-  connection.query('SELECT * FROM ingredient',(err,response)=>{
-      if(err) throw err;
-      res.json(response);
-  })
-})
+// app.get('/ingredients/:id',(req,res)=>{
+//   connection.query('SELECT * FROM ingredient WHERE (recipeID=?)',[req.params.id],(err,response)=>{
+//       if(err) throw err;
+//       res.json(response);
+//   })
+// })
+// app.get('/ingredients',(req,res)=>{
+//   connection.query('SELECT * FROM ingredient',(err,response)=>{
+//       if(err) throw err;
+//       res.json(response);
+//   })
+// })
 
 
 

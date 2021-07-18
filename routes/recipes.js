@@ -18,7 +18,6 @@ const connection = mysql.createPool({
 // });
 
 
-
 router.get('/', (req, res) => {
 
     connection.query('SELECT * FROM recipe', (req, resp) => {
@@ -52,18 +51,19 @@ router.get('/:id',(req,res)=>{
     })
 })
 
-router.get('/ingredients/:id',(req,res)=>{
-    connection.query('SELECT * FROM ingredient WHERE (recipeID=?)',[req.params.id],(err,response)=>{
-        if(err) throw err;
-        res.json(response);
-    })
-})
-router.get('/ingredients',(req,res)=>{
-    connection.query('SELECT * FROM ingredient',(err,response)=>{
-        if(err) throw err;
-        res.json(response);
-    })
-})
+// router.get('/ingredients/:id',(req,res)=>{
+//     connection.query('SELECT * FROM ingredient WHERE (recipeID=?)',[req.params.id],(err,response)=>{
+//         if(err) throw err;
+//         res.json(response);
+//     })
+// })
+// router.get('/ingredients',(req,res)=>{
+//     connection.query('SELECT * FROM ingredient',(err,response)=>{
+//         if(err) throw err;
+//         res.json(response);
+//     })
+// })
+
 router.post('/',(req,res,next)=>{
     connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES(?,?,?,?)',[req.body.title,req.body.rating,req.body.cooktime,req.body.instructions],
     (err,resp)=>{
