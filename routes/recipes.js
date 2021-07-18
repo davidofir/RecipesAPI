@@ -59,7 +59,7 @@ router.post('/recipes',(req,res,next)=>{
         if(err) throw err;
         next();
     })
-}
+})
 
 // ,(req,res,next)=>{
 //     connection.query('SELECT LAST_INSERT_ID()',(err,result)=>{
