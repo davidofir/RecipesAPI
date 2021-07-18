@@ -79,7 +79,6 @@ app.get('/recipes', (req, res) => {
   connection.query('SELECT * FROM recipe', (req, resp) => {
       res.json(resp);
   });
-
 })
 
 app.get('/recipes/imgs',(req,res)=>{
