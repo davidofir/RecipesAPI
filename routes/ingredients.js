@@ -41,6 +41,6 @@ router.post('/ingredients',(req,res)=>{
             if(err) throw err;
             res.sendStatus(200);
         })
-})})
+})}) //
 
 module.exports = router;
