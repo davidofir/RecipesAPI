@@ -53,26 +53,29 @@ router.get('/:id',(req,res)=>{
 })
 
 router.post('/recipes',(req,res,next)=>{
+    alert("ADD ITEM")
     connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES(?,?,?,?)',[req.body.title,req.body.rating,req.body.cooktime,req.body.instructions],
     (err,resp)=>{
         if(err) throw err;
         next();
     })
-},(req,res,next)=>{
-    connection.query('SELECT LAST_INSERT_ID()',(err,result)=>{
-        console.log(result[0]['LAST_INSERT_ID()']);
-        req.lastID = result[0]['LAST_INSERT_ID()'];
-        next();
-    })
 }
-,(req,res)=>{
-    for(let i = 0; i < req.body.ingredients.length; i++){
-        console.log(req.lastID);
-        connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (?,?,?,?)',[req.lastID,req.body.ingredients[i]["name"],req.body.ingredients[i]["qty"],req.body.ingredients[i]["unit"]],(err,result)=>{
-        res.end();
-        })
-        }
-}
-)
+
+// ,(req,res,next)=>{
+//     connection.query('SELECT LAST_INSERT_ID()',(err,result)=>{
+//         console.log(result[0]['LAST_INSERT_ID()']);
+//         req.lastID = result[0]['LAST_INSERT_ID()'];
+//         next();
+//     })
+// }
+// ,(req,res)=>{
+//     for(let i = 0; i < req.body.ingredients.length; i++){
+//         console.log(req.lastID);
+//         connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (?,?,?,?)',[req.lastID,req.body.ingredients[i]["name"],req.body.ingredients[i]["qty"],req.body.ingredients[i]["unit"]],(err,result)=>{
+//         res.end();
+//         })
+//         }
+// }
+// )
 
 module.exports = router;
