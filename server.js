@@ -55,13 +55,13 @@ const fileFilter = (req,file,cb) =>{
 
 const upload = multer({storage:storage, limits: {fileSize:1024*1024*5},fileFilter:fileFilter});
 
-// const connection = mysql.createPool({
-//   host: 'us-cdbr-east-04.cleardb.com',
-//   user: 'bad8b023ef60ea',
-//   password: '2e405a5e',
-//   database: 'heroku_080948200542108',
-//   debug:'false'
-// });
+const connection = mysql.createPool({
+  host: 'us-cdbr-east-04.cleardb.com',
+  user: 'bad8b023ef60ea',
+  password: '2e405a5e',
+  database: 'heroku_080948200542108',
+  debug:'false'
+});
 
 app.use('/recipes', recipesRouter);
 
@@ -69,85 +69,86 @@ app.listen(port, () => {
   console.log(`the server is running on port ${port}`);
 });
 
-// app.get('/', (req, res) => {
-//   res.send("Hello Again!")
-// });
+app.get('/', (req, res) => {
+  res.send("Hello Again!")
+});
 
 
-// app.get('/recipes', (req, res) => {
+app.get('/recipes', (req, res) => {
 
-//   connection.query('SELECT * FROM recipe', (req, resp) => {
-//       res.json(resp);
-//   });
+  connection.query('SELECT * FROM recipe', (req, resp) => {
+      res.json(resp);
+  });
 
+})
+
+app.get('/recipes/imgs',(req,res)=>{
+  connection.query('SELECT * FROM recipeimg',(req,resp)=>{
+      res.json(resp)
+  })
+})
+// app.post("/upload",upload.fields([{name:"imgs",maxCount:5}]),(req,res,next)=>{
+//     console.log(req.files.imgs);
+
+//     req.files.imgs.foreach((file)=>{
+//         connection.query('INSERT INTO recipeimg(recipeID,path) VALUES(?,?)',[5,file.path],(err,response)=>{
+//             if(err) throw err;
+//         })
+//     })
+
+//     res.sendStatus(200);
 // })
-// app.get('/recipes/imgs',(req,res)=>{
-//   connection.query('SELECT * FROM recipeimg',(req,resp)=>{
-//       res.json(resp)
-//   })
-// })
-// // app.post("/upload",upload.fields([{name:"imgs",maxCount:5}]),(req,res,next)=>{
-// //     console.log(req.files.imgs);
 
-// //     req.files.imgs.foreach((file)=>{
-// //         connection.query('INSERT INTO recipeimg(recipeID,path) VALUES(?,?)',[5,file.path],(err,response)=>{
-// //             if(err) throw err;
-// //         })
-// //     })
-
-// //     res.sendStatus(200);
-// // })
-
-// app.get('/recipes/:id',(req,res)=>{
-//   var recipe;
-//   connection.query('SELECT * FROM recipe WHERE (recipe.recipeID=?)',[req.params.id],(err,response)=>{
-//       if(err) throw err;
-//       recipe = response;
-//       res.json(recipe);
-//   })
-// })
+app.get('/recipes/:id',(req,res)=>{
+  var recipe;
+  connection.query('SELECT * FROM recipe WHERE (recipe.recipeID=?)',[req.params.id],(err,response)=>{
+      if(err) throw err;
+      recipe = response;
+      res.json(recipe);
+  })
+})
 
 
 
 //!!!!
 
-// app.get('/ingredients/:id',(req,res)=>{
-//   connection.query('SELECT * FROM ingredient WHERE (recipeID=?)',[req.params.id],(err,response)=>{
-//       if(err) throw err;
-//       res.json(response);
-//   })
-// })
-// app.get('/ingredients',(req,res)=>{
-//   connection.query('SELECT * FROM ingredient',(err,response)=>{
-//       if(err) throw err;
-//       res.json(response);
-//   })
-// })
+app.get('/ingredients/:id',(req,res)=>{
+  connection.query('SELECT * FROM ingredient WHERE (recipeID=?)',[req.params.id],(err,response)=>{
+      if(err) throw err;
+      res.json(response);
+  })
+})
+app.get('/ingredients',(req,res)=>{
+  connection.query('SELECT * FROM ingredient',(err,response)=>{
+      if(err) throw err;
+      res.json(response);
+  })
+})
 
 
 
-// app.post('/recipes',(req,res,next)=>{
-//   connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES(?,?,?,?)',[req.body.title,req.body.rating,req.body.cooktime,req.body.instructions],
-//   (err,resp)=>{
-//       if(err) throw err;
-//       next();
-//   })
-// },(req,res,next)=>{
-//   connection.query('SELECT LAST_INSERT_ID()',(err,result)=>{
-//       console.log(result[0]['LAST_INSERT_ID()']);
-//       req.lastID = result[0]['LAST_INSERT_ID()'];
-//       next();
-//   })
-// }
-// ,(req,res)=>{
-//   for(let i = 0; i < req.body.ingredients.length; i++){
-//       console.log(req.lastID);
-//       connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (?,?,?,?)',[req.lastID,req.body.ingredients[i]["name"],req.body.ingredients[i]["qty"],req.body.ingredients[i]["unit"]],(err,result)=>{
-//       res.end();
-//       })
-//       }
-// }
-// )
+app.post('/recipes',(req,res,next)=>{
+  connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES(?,?,?,?)',[req.body.title,req.body.rating,req.body.cooktime,req.body.instructions],
+  (err,resp)=>{
+      if(err) throw err;
+      next();
+  })
+},(req,res,next)=>{
+  connection.query('SELECT LAST_INSERT_ID()',(err,result)=>{
+      console.log(result[0]['LAST_INSERT_ID()']);
+      req.lastID = result[0]['LAST_INSERT_ID()'];
+      next();
+  })
+}
+,(req,res)=>{
+  for(let i = 0; i < req.body.ingredients.length; i++){
+      console.log(req.lastID);
+      connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (?,?,?,?)',[req.lastID,req.body.ingredients[i]["name"],req.body.ingredients[i]["qty"],req.body.ingredients[i]["unit"]],(err,result)=>{
+      res.end();
+      })
+      }
+}
+)
 
 
 // // //view engine setup
