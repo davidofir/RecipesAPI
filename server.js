@@ -15,13 +15,13 @@ const app = express();
 const mysql = require('mysql2');
 const cors = require('cors');
 const multer = require('multer');
+
+var recipesRouter = require('./routes/recipes');
+
 app.use(express.json());
 app.use('/uploads/',express.static('uploads'));
 app.use(express.urlencoded({extended:true}));
 app.use(cors());
-
-
-var recipesRouter = require('./routes/recipes');
 
 
 // // var indexRouter = require('./routes/index');
@@ -55,13 +55,13 @@ const fileFilter = (req,file,cb) =>{
 
 const upload = multer({storage:storage, limits: {fileSize:1024*1024*5},fileFilter:fileFilter});
 
-const connection = mysql.createPool({
-  host: 'us-cdbr-east-04.cleardb.com',
-  user: 'bad8b023ef60ea',
-  password: '2e405a5e',
-  database: 'heroku_080948200542108',
-  debug:'false'
-});
+// const connection = mysql.createPool({
+//   host: 'us-cdbr-east-04.cleardb.com',
+//   user: 'bad8b023ef60ea',
+//   password: '2e405a5e',
+//   database: 'heroku_080948200542108',
+//   debug:'false'
+// });
 
 app.use('/recipes', recipesRouter);
 
@@ -69,9 +69,9 @@ app.listen(port, () => {
   console.log(`the server is running on port ${port}`);
 });
 
-app.get('/', (req, res) => {
-  res.send("Hello Again!")
-});
+// app.get('/', (req, res) => {
+//   res.send("Hello Again!")
+// });
 
 
 // app.get('/recipes', (req, res) => {
@@ -107,18 +107,25 @@ app.get('/', (req, res) => {
 //   })
 // })
 
-app.get('/ingredients/:id',(req,res)=>{
-  connection.query('SELECT * FROM ingredient WHERE (recipeID=?)',[req.params.id],(err,response)=>{
-      if(err) throw err;
-      res.json(response);
-  })
-})
-app.get('/ingredients',(req,res)=>{
-  connection.query('SELECT * FROM ingredient',(err,response)=>{
-      if(err) throw err;
-      res.json(response);
-  })
-})
+
+
+//!!!!
+
+// app.get('/ingredients/:id',(req,res)=>{
+//   connection.query('SELECT * FROM ingredient WHERE (recipeID=?)',[req.params.id],(err,response)=>{
+//       if(err) throw err;
+//       res.json(response);
+//   })
+// })
+// app.get('/ingredients',(req,res)=>{
+//   connection.query('SELECT * FROM ingredient',(err,response)=>{
+//       if(err) throw err;
+//       res.json(response);
+//   })
+// })
+
+
+
 // app.post('/recipes',(req,res,next)=>{
 //   connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES(?,?,?,?)',[req.body.title,req.body.rating,req.body.cooktime,req.body.instructions],
 //   (err,resp)=>{
