@@ -52,8 +52,8 @@ router.get('/:id',(req,res)=>{
     })
 })
 
-router.post('/recipes',(req,res,next)=>{
-    connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES("FOOD 1","5","30","COOK THEM!");')
+router.post('/recipes/add',(req,res,next)=>{
+    connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES("FOOD 2","5","30","COOK THEM!");')
     // connection.query('INSERT INTO recipe(title,rating,cooktime,instructions) VALUES(?,?,?,?)',[req.body.title,req.body.rating,req.body.cooktime,req.body.instructions],
     // (err,resp)=>{
     //     if(err) throw err;
