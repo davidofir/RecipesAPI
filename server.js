@@ -63,6 +63,8 @@ const connection = mysql.createPool({
   debug:'false'
 });
 
+app.use('/recipes', recipesRouter);
+
 app.listen(port, () => {
   console.log(`the server is running on port ${port}`);
 });
@@ -70,8 +72,6 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
   res.send("Hello Again!")
 });
-
-app.use('/recipes', recipesRouter);
 
 
 // app.get('/recipes', (req, res) => {
