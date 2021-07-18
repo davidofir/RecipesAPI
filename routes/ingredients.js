@@ -32,17 +32,17 @@ router.get('/',(req,res)=>{
         res.json(response);
     })
 })
-
 router.post('/',
 (req,res,next)=>{
-connection.query('LAST_INSERT_ID',(err,result)=>{
+connection.query('SELECT LAST_INSERT_ID()',(err,result)=>{
     req.lastID = result;
     next();
 })
 },
 (req,res)=>{
         req.body.ingredients.map((item,index)=>{
-            console.log(item)
+            //console.log(item)
+            console.log(req.lastID);
         connection.query('INSERT INTO ingredient(recipeID,name,qty,unit) VALUES (?,?,?,?)',[req.lastID,item.name,item.qty,item.unit],(err,result)=>{
             if(err) throw err;
             res.sendStatus(200);
